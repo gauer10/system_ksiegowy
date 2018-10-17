@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>System Księgowy</title>
+    <script language="JavaScript" type="text/javascript">
+        <!--
+
+        var NS4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) < 5);
+
+        function addOption(theSel, theText, theValue)
+        {
+            var newOpt = new Option(theText, theValue, true,true);
+            var selLength = theSel.length;
+            theSel.options[selLength] = newOpt;
+            newOpt.selected = 'selected'
+            newOpt.setAttribute("name", "RoleAll");
+        }
+
+        function deleteOption(theSel, theIndex)
+        {
+            var selLength = theSel.length;
+            if(selLength>0)
+            {
+                theSel.options[theIndex] = null;
+            }
+        }
+
+        function moveOptions(theSelFrom, theSelTo)
+        {
+
+            var selLength = theSelFrom.length;
+            var selectedText = new Array();
+            var selectedValues = new Array();
+            var selectedCount = 0;
+
+            var i;
+
+            // Find the selected Options in reverse order
+            // and delete them from the 'from' Select.
+            for(i=selLength-1; i>=0; i--)
+            {
+                if(theSelFrom.options[i].selected)
+                {
+                    selectedText[selectedCount] = theSelFrom.options[i].text;
+                    selectedValues[selectedCount] = theSelFrom.options[i].value;
+                    deleteOption(theSelFrom, i);
+                    selectedCount++;
+                }
+            }
+
+            // Add the selected text/values in reverse order.
+            // This will add the Options to the 'to' Select
+            // in the same order as they were in the 'from' Select.
+            for(i=selectedCount-1; i>=0; i--)
+            {
+                addOption(theSelTo, selectedText[i], selectedValues[i]);
+            }
+
+            if(NS4) history.go(0);
+        }
+
+        //-->
+    </script>
+
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 30px}
+    .menuleftcontent{min-width:15%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+</style>
+
+<div th:id="logout" class="logout">
+    <form action="/logout" th:action="@{/logout}" method="post">
+        <input type="submit" value="Wyloguj"/>
+    </form>
+</div>
+
+<div id="page" class="page">
+    <div id="menuleftcontent" class="menuleftcontent">
+
+        <ul><a href="/tasks" th:href="@{/tasks}">Zgłoszenia</a></ul>
+        <ul><a href="/partners" th:href="@{/partners}">Partnerzy</a></ul>
+        <ul><a href="/contracts" th:href="@{/contracts}">Umowy</a></ul>
+        <ul><a href="/invoicing" th:href="@{/invoicing}">Faktury</a></ul>
+        <ul><a href="/reports" th:href="@{/reports}">Raporty</a></ul>
+        <ul><a href="/templates" th:href="@{/templates}">Szablony</a> </ul>
+        <ul><a href="/services" th:href="@{/services}">Usługi</a></ul>
+        <ul>Użytkownicy
+            <li th:style="'padding-left: 1em;'"><a href="/users/list" th:href="@{/users/list}">Użytkownicy</a></li>
+            <li><a href="/users/add" th:href="@{/users/add}">Dodaj</a></li>
+        </ul>
+    </div>
+    <div id="maincontent" class="maincontent" th:object="${user}">
+        <h2>Przegląd</h2>
+
+            <form th:action="@{/users/list/user={id}(id=*{id})}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                <label>Imię <input th:value="*{firstName}" th:field="*{firstName}"></label><br>
+                <label>Nazwisko <input th:value="*{lastName}" th:field="*{lastName}"></label><br>
+                <label>Email<input th:value="*{email}" th:field="*{email}"></label><br>
+                <label>Login <input th:value="*{login}" th:field="*{login}"></label><br>
+                    <input type="date" th:type="hidden" th:field="*{addDate}" th:value="*{addDate}">
+                    <input type="hidden" th:field="*{password}">
+                <label>Dostęp:<input type="checkbox" th:field="*{enabled}" th:value="*{enabled}"></label>
+                <input type="hidden" th:field="*{accountNonExpired}">
+                <input type="hidden" th:field="*{credentialsNonExpired}">
+                <input type="hidden" th:field="*{accountNonLocked}">
+                <input type="submit" th:value="'Zapisz'">
+
+        <h2>Uprawnienia:</h2>
+
+
+        <table border="0">
+            <tr>
+                <td>
+                    <select name="allRoles" size="10" style="width: 200px" multiple="multiple">
+                        <option th:each="roles : ${userRoles}" th:text="${roles}" name="roleAll"></option>
+                    </select>
+                </td>
+                <td align="center" valign="middle">
+                    <input type="button" value="--&gt;"
+                           onclick="moveOptions(this.form.allRoles, this.form.permissions);" /><br />
+                    <input type="button" value="&lt;--"
+                           onclick="moveOptions(this.form.permissions, this.form.allRoles);" />
+                </td>
+                <td>
+                   <select name="permissions" size="10" style="width: 200px" multiple="multiple">
+                        <option th:each="roles : *{getRoles()}" th:text="${roles}" th:value="${roles}" th:selected="true" path="RoleAll"></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        </form>
+
+    </div>
+</div>
+
+
+<div class="container" th:style="'background-color: #e5e5e5; position: absolute; bottom: 0px;'">
+    <p>Developed by ©2018 Wojciech Gauze Development</p>
+</div>
+
+</body>
+</html>

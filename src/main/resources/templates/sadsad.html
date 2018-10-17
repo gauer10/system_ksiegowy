@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<ul><a href="/tasks" th:href="@{/tasks}">Zgłoszenia</a></ul>
+<ul><a href="/partners" th:href="@{/partners}">Partnerzy</a></ul>
+<ul><a href="/contracts" th:href="@{/contracts}">Umowy</a></ul>
+<ul><a href="/invoicing" th:href="@{/invoicing}">Faktury</a></ul>
+<ul><a href="/reports" th:href="@{/reports}">Raporty</a></ul>
+<ul><a href="/templates" th:href="@{/templates}">Szablony</a> </ul>
+<ul><a href="/services" th:href="@{/services}">Usługi</a></ul>
+<ul>Użytkownicy
+    <li th:style="'padding-left: 1em;'"><a href="/users/list" th:href="@{/users/list}">Użytkownicy</a></li>
+    <li><a href="/users/add" th:href="@{/users/add}">Dodaj</a></li>
+</ul>
+
+</body>
+</html>
