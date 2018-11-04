@@ -2,10 +2,9 @@ package pl.wojtek.system_ksiegowy.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-public class Contractor implements Serializable
+public class Company implements Serializable
 {
     private static final long serialVersionUID = 56464849644644l;
 
@@ -34,12 +33,7 @@ public class Contractor implements Serializable
     private String email;
     private String contactPerson;
     private String fullAddress;
-    @OneToMany(mappedBy = "contractor")
-    private List<Contract> contracts;
-    @OneToMany(mappedBy = "contractor")
-    private List<Invoice> invoices;
-
-    public Contractor() {}
+    private String bankAccountNumber;
 
     public Long getId() {
         return id;
@@ -209,14 +203,6 @@ public class Contractor implements Serializable
         this.email = email;
     }
 
-    public List<Contract> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }
-
     public String getContactPerson() {
         return contactPerson;
     }
@@ -233,32 +219,53 @@ public class Contractor implements Serializable
         this.fullAddress = fullAddress;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
+
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
     }
 
     @Override
     public String toString() {
-        return  fullName +
-                ", NIP: " + NIP +
-                ", Adres: " + contractorAddress(this);
-
+        return "Contractor{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", NIP=" + NIP +
+                ", REGON=" + REGON +
+                ", KRS=" + KRS +
+                ", street='" + street + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", apartmentNumber='" + apartmentNumber + '\'' +
+                ", city='" + city + '\'' +
+                ", post='" + post + '\'' +
+                ", voivodeship='" + voivodeship + '\'' +
+                ", county='" + county + '\'' +
+                ", streetCorresspond='" + streetCorresspond + '\'' +
+                ", houseNumberCorresspond='" + houseNumberCorresspond + '\'' +
+                ", apartmentNumberCorresspond='" + apartmentNumberCorresspond + '\'' +
+                ", cityCorresspond='" + cityCorresspond + '\'' +
+                ", postCorresspond='" + postCorresspond + '\'' +
+                ", voivodeshipCorresspond='" + voivodeshipCorresspond + '\'' +
+                ", countyCorresspond='" + countyCorresspond + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", contactPerson='" + contactPerson + '\'' +
+                '}';
     }
 
-    public String contractorAddress(Contractor contractor)
+    public String companyAddress(Company company)
     {
         StringBuilder address = new StringBuilder();
-        if (!contractor.getStreet().equals(""))
-            address.append(contractor.getStreet() + " ");
-        if (!contractor.getHouseNumber().equals(""))
+        if (!company.getStreet().equals(""))
+            address.append(company.getStreet() + " ");
+        if (!company.getHouseNumber().equals(""))
         {
-            address.append(contractor.getHouseNumber());
-            if (!contractor.getApartmentNumber().equals(""))
-                address.append("/" + contractor.getApartmentNumber());
+            address.append(company.getHouseNumber());
+            if (!company.getApartmentNumber().equals(""))
+                address.append("/" + company.getApartmentNumber());
         }
         return address.toString();
     }

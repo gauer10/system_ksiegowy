@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Dodawanie Kontrahenta</title>
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 60px; bottom: 50px}
+    .menuleftcontent{min-width:15%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+    .footer {
+        position: page;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #e5e5e5;
+        color: black;
+        text-align: center;
+    }
+    .no-spinners::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+</style>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+    </div>
+
+    <div id="maincontent" class="maincontent">
+
+        <form action="#" method="post" th:action="@{/contracts/add}" th:object="${contract}">
+            <input type="hidden" th:field="${contractor.id}">
+            <table border="0">
+                <tr>
+                    <td colspan="2"><h4>Stwórz umowę</h4></td>
+                </tr>
+                <tr>
+                    <td>Numer umowy</td>
+                    <td><input th:field="*{contractNumber}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Data podpisania</td>
+                    <td><input th:field="*{signDate}" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Długość obowiązywania umowy</td>
+                    <td><input th:field="*{length}"></td>
+                </tr>
+                <tr>
+                    <td>Kontrahent</td>
+                    <td><input th:value="${contractor}" disabled="disabled"></td>
+                </tr>
+                <tr>
+                    <td>Usługa</td>
+                    <td>
+                        <select id="services" name="services" style="width: 200px">
+                            <option th:each="service : ${allServices}" th:value="${service.id}" th:text="${service}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><input type="submit" value="Dodaj"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%; height: 30px'">
+    <p>Developed by ©2018 Wojciech Gauze Development</p>
+</div>
+</body>
+</html>

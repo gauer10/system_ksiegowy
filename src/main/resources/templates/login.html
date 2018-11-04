@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link th:href="@{../static/css/style.css}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Logowanie</title>
 </head>
-<body>
+<body th:style="'background-color: #a1a4a8'">
 <h1>Login</h1>
 <p th:if="${loginError}" th:text="${loginError}"></p>
 <form action="/loginverify" th:action="@{/loginverify}" method="post">
@@ -19,8 +25,9 @@
             <td><input type="password" name="password"/></td>
         </tr>
         <tr>
+            <td></td>
             <td>
-                <input type="submit" value="submit" name="submit"/>
+                <input th:style="'position: right'" type="submit" value="Zaloguj" name="Zaloguj"/>
             </td>
         </tr>
     </table>
@@ -28,7 +35,7 @@
 
 <a th:href="@{/}">Główna</a>
 
-<div class="container" th:style="'background-color: #e5e5e5; position: absolute; bottom: 0px;'">
+<div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
     <p>Developed by ©2018 Wojciech Gauze Development</p>
 </div>
 </form>

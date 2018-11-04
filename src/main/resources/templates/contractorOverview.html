@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>System Księgowy</title>
+
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:85%;position: absolute;top: 60px; bottom: 5%}
+    .menuleftcontent{max-width:17%;float:left;height:85%; bottom: 500px}
+    .maincontent{max-width:78%;float:left;height:85%; bottom: 50px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+    .no-spinners{-webkit-appearance: none; margin: 0;}
+</style>
+
+<script>
+    function copyAddress()
+    {
+        document.getElementById('streetCorresspond').value = document.getElementById('street').value;
+        document.getElementById('houseNumberCorresspond').value = document.getElementById('houseNumber').value;
+        document.getElementById('apartmentNumberCorresspond').value = document.getElementById('apartmentNumber').value;
+        document.getElementById('cityCorresspond').value = document.getElementById('city').value;
+        document.getElementById('postCorresspond').value = document.getElementById('post').value;
+    }
+</script>
+
+<div th:id="logout" class="logout">
+    <form action="/logout" th:action="@{/logout}" method="post">
+        <input type="submit" value="Wyloguj"/>
+    </form>
+</div>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+    </div>
+
+    <div id="maincontent" class="maincontent">
+        <h5>Przegląd</h5>
+
+        <form action="#" method="post" th:action="@{/contractors/list/contractor={id}(id=*{id})}" th:object="${contractor}">
+
+            <table border="0" style="bottom: 50px">
+                <input type="hidden" th:field="*{id}">
+                <tr>
+                    <td colspan="2"><h5>Dane podstawowe:</h5></td>
+                </tr>
+                <tr>
+                    <td>Nazwa</td>
+                    <td><input id="fullName" th:field="*{fullName}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Nip</td>
+                    <td><input id="nip" class="no-spinners" th:field="*{NIP}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>Regon</td>
+                    <td><input id="regon" class="no-spinners" th:field="*{REGON}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>KRS</td>
+                    <td><input id="krs" class="no-spinners" th:field="*{KRS}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Adres główny:</h5></td></tr>
+                <tr>
+                    <td>Ulica</td>
+                    <td><input id="street" th:field="*{street}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Numer domu</td>
+                    <td><input id="houseNumber" th:field="*{houseNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Numer mieszkania</td>
+                    <td><input id="apartmentNumber" th:field="*{apartmentNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Miasto</td>
+                    <td><input id="city" th:field="*{city}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Poczta</td>
+                    <td><input id="post" th:field="*{post}"></label></td>
+                </tr>
+                <tr>
+                    <td>Województwo</td>
+                    <td><input id="voivodeship" th:field="*{voivodeship}"></td>
+                </tr>
+                <tr>
+                    <td>Powiat</td>
+                    <td><input id="county" th:field="*{county}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Adres korespondencyjny:</h5></td>
+                </tr>
+                <tr>
+                    <td>Taki sam jak główny</td>
+                    <td><input type="button" onclick="copyAddress()" value="Kopiuj"></td>
+                </tr>
+                <tr>
+                    <td>Ulica</td>
+                    <td><input id="streetCorresspond" th:field="*{streetCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Numer domu</td>
+                    <td><input id="houseNumberCorresspond" th:field="*{houseNumberCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Numer mieszkania</td>
+                    <td><input id="apartmentNumberCorresspond" th:field="*{apartmentNumberCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Miasto</td>
+                    <td><input id="cityCorresspond" th:field="*{cityCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Poczta</td>
+                    <td><input id="postCorresspond" th:field="*{postCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Województwo</td>
+                    <td><input id="voivodeshipCorresspond" th:field="*{voivodeshipCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Powiat</td>
+                    <td><input id="countyCorresspond" th:field="*{countyCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Dane kontaktowe:</h5></td>
+                </tr>
+                <tr>
+                    <td>Telefon</td>
+                    <td><input id="phoneNumber" class="no-spinners" th:field="*{phoneNumber}" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input id="email" th:field="*{email}"></td>
+                </tr>
+                <tr>
+                    <td>Osoba kontaktowa</td>
+                    <td><input id="contactPerson" th:field="*{contactPerson}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><input type="submit" value="Zapisz"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div>
+        <form action="#" method="get" th:action="@{/contracts/add}" th:object="${contractor}">
+            <table border="0">
+                <input name="contractor_id" type="hidden" th:value="*{id}">
+                <tr>
+                    <td align="right">Stwórz umowę</td>
+                    <td align="right"><input type="submit" value="Stwórz umowę"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Lista kontrahentów</title>
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 60px; bottom: 50px}
+    .menuleftcontent{min-width:17%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+
+</style>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"></div>
+
+    </div>
+
+
+    <div id="maincontent" class="maincontent">
+
+        <!--<p th:if="${contractorAdded}" th:text="${contractorAdded}"></p>-->
+
+        <h2>Lista umów</h2>
+
+        <table border="2">
+            <tr>
+                <th>Numer umowy</th>
+                <th>Data podpisania</th>
+                <th>Data aktywacji</th>
+                <th>Data zakończenia</th>
+                <th>Okres trwania</th>
+                <th>Wynagrodzenie</th>
+                <th>Kontrahent</th>
+                <th>Usługa</th>
+            </tr>
+            <tr th:each="contract: ${allContracts}" th:object="${contract}">
+                <td><a th:href="@{/contracts/list/contract={id}(id=*{id})}" th:text="*{contractNumber}"></a></td>
+                <td th:text="*{signDate}"></td>
+                <td th:text="*{startDate}"></td>
+                <td th:text="*{endDate}"></td>
+                <td th:text="*{length}"></td>
+                <td th:text="*{getStringSalary()}"></td>
+                <td><a th:href="@{/contractors/list/contractor={id}(id=*{contractor.id})}" th:text="*{contractor.fullName}"></a></td>
+                <td><a th:href="@{/services/list/service={id}(id=*{services.id})}" th:text="*{services.serviceName}"></a></td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+
+
+<form id="logout" class="logout" action="/logout" th:action="@{/logout}" method="post">
+    <input type="submit" value="Wyloguj"/>
+</form>
+
+<div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%; height: 30px'">
+    <p>Developed by ©2018 Wojciech Gauze Development</p>
+</div>
+
+</body>
+</html>

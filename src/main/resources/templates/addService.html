@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Dodawanie użytkownika</title>
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 60px}
+    .menuleftcontent{min-width:15%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+</style>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+
+    </div>
+
+    <div id="maincontent" class="maincontent">
+
+        <div><a href="/" th:href="@{/}">Strona główna</a></div>
+
+        <form action="#" method="post" th:action="@{/services/add/}" th:object="${service}">
+            <table border="0">
+                <tr>
+                    <td colspan="2"><h4>Dodaj usługę</h4></td>
+                </tr>
+                <tr>
+                    <td>Nazwa</td>
+                    <td><input th:field="*{serviceName}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Opis</td>
+                    <td><input th:field="*{serviceDescription}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Data aktywacji</td>
+                    <td align="right"><input th:field="*{startDate}" type="date"></td>
+                </tr>
+            </table>
+            <input type="submit" value="Dodaj">
+        </form>
+    </div>
+
+    <div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
+        <p>Developed by ©2018 Wojciech Gauze Development</p>
+    </div>
+
+</div>
+
+</body>
+</html>

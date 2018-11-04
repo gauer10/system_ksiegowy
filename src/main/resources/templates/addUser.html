@@ -7,33 +7,105 @@
     <meta name="author" content="Wojciech Gauze">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>System Księgowy</title>
+    <title>Dodawanie użytkownika</title>
 </head>
 <body th:style="'background-color: #a1a4a8'">
 
-    <div><a href="/" th:href="@{/}">Strona główna</a></div>
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 60px}
+    .menuleftcontent{min-width:15%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+</style>
 
-    <form  style="text-align: right" action="/logout" th:action="@{/logout}" method="post">
-        <input type="submit" value="Wyloguj"/>
-    </form>
+<div id="page" class="page">
 
-    <h1>Dodaj użytkownika</h1>
-    <form action="#" method="post" th:action="@{/users/add}" th:object="${user}">
-        <input th:field="*{login}" th:required="required">
-        <input th:field="*{firstName}" th:required="required">
-        <input th:field="*{lastName}" th:required="required">
-        <input th:field="*{email}" th:required="required">
-        <input th:field="*{password}" th:required="required" type="password">
-        <input th:field="*{enabled}" th:type="checkbox">
-        <input type="submit" value="Dodaj">
-    </form>
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+
+    </div>
+
+    <div id="maincontent" class="maincontent">
+
+        <div><a href="/" th:href="@{/}">Strona główna</a></div>
+
+        <form action="#" method="post" th:action="@{/admin/users/add}" th:object="${user}">
+            <table border="0">
+                <tr>
+                    <td colspan="2"><h4>Dodaj użytkownika</h4></td>
+                </tr>
+                <tr th:if="${#fields.hasErrors('login')}">
+                    <td th:errors="*{login}"></td>
+                </tr>
+                <tr>
+                    <td>Login</td>
+                    <td><input th:field="*{login}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Imię</td>
+                    <td><input th:field="*{firstName}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Nazwisko</td>
+                    <td><input th:field="*{lastName}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input th:field="*{email}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Hasło</td>
+                    <td><input th:field="*{password}" th:required="required" type="password"></td>
+                </tr>
+                <tr>
+                    <td>Dostęp</td>
+                    <td><input th:field="*{enabled}" th:type="checkbox"></td>
+                </tr>
+            </table>
+            <input type="submit" value="Dodaj">
+
+            <h2>Uprawnienia:</h2>
+
+
+            <table border="0">
+                <tr>
+                    <td>
+                        <select name="allRoles" size="10" style="width: 200px" multiple="multiple">
+                            <option th:each="roles : ${#lists.sort(userRoles)}" th:text="${roles}"></option>
+                        </select>
+                    </td>
+                    <td align="center" valign="middle">
+                        <input type="button" value="--&gt;"
+                               onclick="moveOptions(this.form.allRoles, this.form.permissions);" /><br />
+                        <input type="button" value="&lt;--"
+                               onclick="moveOptions(this.form.permissions, this.form.allRoles);" />
+                    </td>
+                    <td>
+                        <select id="permissions" name="permissions" size="10" style="width: 200px" multiple="multiple">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
 
 
 
 
-<div class="container" th:style="'background-color: #e5e5e5; position: absolute; bottom: 0px;'">
-    <p>Developed by ©2018 Wojciech Gauze Development</p>
+    <div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
+        <p>Developed by ©2018 Wojciech Gauze Development</p>
+    </div>
+
 </div>
 
 </body>

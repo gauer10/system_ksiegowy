@@ -24,11 +24,12 @@ public class HomeController
         this.userRepository = userRepository;
     }
     @RequestMapping("/")
-    public String home(Model model)
+    public String home(Model model, HttpServletRequest request)
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SystemUser authenticatedUser = userRepository.findByLogin(authentication.getName());
-        model.addAttribute("logged", authenticatedUser);
+        request.getSession().setAttribute("logged", authenticatedUser);
+        /*model.addAttribute("logged", authenticatedUser);*/
         if (authentication.getPrincipal().equals("anonymousUser"))
             return "unloggedHome";
         else return "loggedHome";

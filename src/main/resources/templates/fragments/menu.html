@@ -1,0 +1,54 @@
+<div th:fragment="left-menu">
+
+    <div><ul><a th:href="@{/}">Strona główna</a></ul></div>
+
+    <div sec:authorize="hasAuthority('Zgłoszenia')">
+        <ul>Zgłoszenia
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/tasks/list}">Lista zgłoszeń</a></li>
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/tasks/add}">Dodaj zgłoszenie</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Kontrahenci')">
+        <ul>Kontrahenci
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/contractors/list}">Lista Kontrahentów</a></li>
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/contractors/add}">Dodaj Kontrahenta</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Umowy')">
+        <ul>Umowy
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/contracts/list}">Lista Umów</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Fakturowanie')">
+        <ul>Faktury
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/invoices/list}">Lista Faktur</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Szablony')">
+        <ul>Szablony
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/templates/list}">Szablony</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Usługi')">
+        <ul>Usługi
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/services/list}">Lista Usług</a></li>
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/services/add}">Dodaj usługę</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="hasAuthority('Pracownicy')">
+        <ul>Pracownicy i Działy
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/employees/list}">Lista pracowników</a></li>
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/employees/list}">Lista Działów</a></li>
+            <li th:style="'padding-left: 1em;'"><a th:href="@{/employees/add}">Dodaj pracownika</a></li>
+        </ul>
+    </div>
+
+    <div sec:authorize="hasAuthority('Administrator')">
+        <ul>Administracja systemem
+            <li th:style="'padding-left: 1em;'"><a href="/system/" th:href="@{/admin/users/list}">Lista użytkowników</a></li>
+            <li th:style="'padding-left: 1em;'"><a href="/system/" th:href="@{/admin/users/add}">Dodaj użytkownika</a></li>
+            <li th:style="'padding-left: 1em;'"><a href="/system/" th:href="@{/admin/company_data}">Dane firmy</a></li>
+            <li th:style="'padding-left: 1em;'"><a href="/system/" th:href="@{/admin/logged}">Zalogowani użytkownicy</a></li>
+        </ul>
+    </div>
+</div>

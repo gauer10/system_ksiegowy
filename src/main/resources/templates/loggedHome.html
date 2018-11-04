@@ -6,62 +6,56 @@
     <meta name="viewport" content="width-device-width" initial-scale="1"/>
     <meta name="description" content="System księgowy V1">
     <meta name="author" content="Wojciech Gauze">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>System Księgowy</title>
 </head>
 <body th:style="'background-color: #a1a4a8'">
 
+<style>
+    .page{width:100%; min-height:900px;position: absolute;top: 60px}
+    .menuleftcontent{min-width:17%;float:left;height:900px;}
+    .maincontent{min-width:78%;float:left;height:900px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
 
-    <form  style="text-align: right" action="/logout" th:action="@{/logout}" method="post">
+</style>
+
+    <!--<div th:if="${logged}" th:object="${logged}">
+        <p th:text="'Witaj: ' + *{getFirstName() + ' ' + getLastName()}"></p>
+    </div>-->
+    <form id="logout" class="logout" action="/logout" th:action="@{/logout}" method="post">
         <input type="submit" value="Wyloguj"/>
     </form>
 
-    <p th:text="${logged}"></p>
+    <div id="page" class="page">
 
-    Logged user: <span sec:authentication="name">Bob</span>
-    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-
-
-    <p th:if="${userAdded}" th:text="'Użytkownik dodany'"></p>
-
-    <div>
-
-        <ul><a href="/tasks" th:href="@{/tasks}">Zgłoszenia</a></ul>
-        <ul>Kontrahenci
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/partners/list}">Lista Kontrahentów</a></li>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/partners/add}">Dodaj Kontrahenta</a></li>
-        </ul>
-        <ul>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/contracts/list}">Lista Umów</a></li>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/contracts/add}">Dodaj Umowę</a></li>
-        </ul>
-        <ul>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/invoices/list}">Lista Faktur</a></li>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/invoices/issue}">Dodaj Kontrahenta</a></li>
-        </ul>
-        <ul>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/reporst/list}">Raporty</a></li>
-        </ul>
-        <ul><a href="/templates" th:href="@{/templates}">Szablony</a> </ul>
-        <ul>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/services/list}">Lista Faktur</a></li>
-            <li th:style="'padding-left: 1em;'"><a th:href="@{/services/add}">Wystaw fakturę</a></li>
-        </ul>
-        <div sec:authorize="hasAuthority('Administrator')">
-        <ul>Użytkownicy
-            <li th:style="'padding-left: 1em;'"><a href="/users/list" th:href="@{/users/list}">Lista Użytkowników</a></li>
-            <li th:style="'padding-left: 1em;'"><a href="/users/add" th:href="@{/users/add}">Dodaj Użytkownika</a></li>
-        </ul>
+        <div class="navbar" th:fragment="navbar">
+            <div th:id="logout" class="logout">
+                <form action="/logout" th:action="@{/logout}" method="post">
+                    <input type="submit" value="Wyloguj"/>
+                </form>
+            </div>
         </div>
 
+        <div id="menuleftcontent" class="menuleftcontent">
+
+            <div th:include="fragments/menu :: left-menu"/>
+
+        </div>
+
+        <div id="maincontent" class="maincontent">
+
+            <h2>Treśc</h2>
+        </div>
     </div>
 
 
 
 
 
-    <div class="container" th:style="'background-color: #e5e5e5; position: absolute; bottom: 0px;'">
+
+
+    <div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
         <p>Developed by ©2018 Wojciech Gauze Development</p>
     </div>
 

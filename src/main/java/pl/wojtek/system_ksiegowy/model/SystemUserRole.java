@@ -2,7 +2,6 @@ package pl.wojtek.system_ksiegowy.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Comparator;
 
 @Entity
 @Table(name = "user_role")

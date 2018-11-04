@@ -1,9 +1,12 @@
 package pl.wojtek.system_ksiegowy.model;
 
+
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.Arrays;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +27,7 @@ public class SystemUser implements Serializable
     @Column(nullable = false)
     private Date addDate;
     @Column(unique = true)
+    @UniqueElements(message = "Istnieje już taki login")
     private String login;
     @Column(nullable = false)
     private String password;

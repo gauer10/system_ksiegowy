@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>System Księgowy</title>
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:85%;position: absolute;top: 60px; bottom: 5%}
+    .menuleftcontent{max-width:17%;float:left;height:85%; bottom: 500px}
+    .maincontent{max-width:78%;float:left;height:85%; bottom: 50px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+    .no-spinners{-webkit-appearance: none; margin: 0;}
+</style>
+
+<div th:id="logout" class="logout">
+    <form action="/logout" th:action="@{/logout}" method="post">
+        <input type="submit" value="Wyloguj"/>
+    </form>
+</div>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+    </div>
+
+    <div id="maincontent" class="maincontent">
+
+        <form action="#" method="post" th:action="@{/admin/company_data/}" th:object="${company}">
+
+            <table border="0" style="bottom: 50px">
+                <input type="hidden" th:field="*{id}">
+                <tr>
+                    <td colspan="2"><h5>Dane podstawowe:</h5></td>
+                </tr>
+                <tr>
+                    <td>Nazwa</td>
+                    <td><input th:field="*{fullName}" th:required="required"></td>
+                    <td>Numer konta</td>
+                    <td><input th:field="*{bankAccountNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Nip</td>
+                    <td><input class="no-spinners" th:field="*{NIP}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>Regon</td>
+                    <td><input class="no-spinners" th:field="*{REGON}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>KRS</td>
+                    <td><input class="no-spinners" th:field="*{KRS}" th:required="required" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Adres główny:</h5></td></tr>
+                <tr>
+                    <td>Ulica</td>
+                    <td><input th:field="*{street}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Numer domu</td>
+                    <td><input th:field="*{houseNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Numer mieszkania</td>
+                    <td><input th:field="*{apartmentNumber}"></td>
+                </tr>
+                <tr>
+                    <td>Miasto</td>
+                    <td><input th:field="*{city}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Poczta</td>
+                    <td><input th:field="*{post}"></label></td>
+                </tr>
+                <tr>
+                    <td>Województwo</td>
+                    <td><input th:field="*{voivodeship}"></td>
+                </tr>
+                <tr>
+                    <td>Powiat</td>
+                    <td><input th:field="*{county}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Adres korespondencyjny:</h5></td>
+                </tr>
+                <tr>
+                    <td>Taki sam jak główny</td>
+                    <td><input type="button"></td>
+                </tr>
+                <tr>
+                    <td>Ulica</td>
+                    <td><input th:field="*{streetCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Numer domu</td>
+                    <td><input th:field="*{houseNumberCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Miasto</td>
+                    <td><input th:field="*{cityCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Poczta</td>
+                    <td><input th:field="*{postCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Województwo</td>
+                    <td><input th:field="*{voivodeshipCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td>Powiat</td>
+                    <td><input th:field="*{countyCorresspond}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h5>Dane kontaktowe:</h5></td>
+                </tr>
+                <tr>
+                    <td>Telefon</td>
+                    <td><input class="no-spinners" th:field="*{phoneNumber}" th:type="number"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input th:field="*{email}"></td>
+                </tr>
+                <tr>
+                    <td>Osoba kontaktowa</td>
+                    <td><input th:field="*{contactPerson}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><input type="submit" value="Zapisz"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

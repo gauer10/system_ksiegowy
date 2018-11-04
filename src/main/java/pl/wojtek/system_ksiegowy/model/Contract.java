@@ -1,30 +1,39 @@
 package pl.wojtek.system_ksiegowy.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.text.DecimalFormat;
+import java.util.Date;
 
 @Entity
 public class Contract implements Serializable
 {
+    private static DecimalFormat format = new DecimalFormat("#.##");
     private static final long serialVersionUID = 64448748484684l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String contractNumber;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date signDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date endDate;
+    private String finishReason;
     private byte length;
     private double salary;
     @ManyToOne
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;
-    @ManyToMany(cascade =  CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "contract_services", joinColumns = {@JoinColumn(name = "contract_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "service_id", referencedColumnName = "id")})
-    private Set<Service> services = new HashSet<>();
+    @OneToOne
+    private Service services;
 
     public Contract() {}
 
@@ -68,8 +77,14 @@ public class Contract implements Serializable
         this.length = length;
     }
 
-    public double getSalary() {
+    public double getSalary()
+    {
         return salary;
+    }
+
+    public String getStringSalary()
+    {
+        return format.format(salary);
     }
 
     public void setSalary(double salary) {
@@ -84,11 +99,42 @@ public class Contract implements Serializable
         this.contractor = contractor;
     }
 
-    public Set<Service> getServices() {
+    public Service getServices() {
         return services;
     }
 
-    public void setServices(Set<Service> services) {
+    public void setServices(Service services) {
         this.services = services;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getFinishReason() {
+        return finishReason;
+    }
+
+    public void setFinishReason(String finishReason) {
+        this.finishReason = finishReason;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", contractNumber='" + contractNumber + '\'' +
+                ", signDate=" + signDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", length=" + length +
+                ", salary=" + salary +
+                ", contractor=" + contractor +
+                ", services=" + services +
+                '}';
     }
 }

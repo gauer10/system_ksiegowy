@@ -8,7 +8,7 @@
     <link th:href="@{../static/css/style.css}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>System Księgowy</title>
+    <title>AcCSyS - lista faktur</title>
 </head>
 <body th:style="'background-color: #a1a4a8'">
 
@@ -36,35 +36,24 @@
 
     <div id="maincontent" class="maincontent">
 
-        <p th:if="${userAdded}" th:text="'Użytkownik dodany'"></p>
-
-        <h2>Lista użytkowników</h2>
+        <h2>Lista zalogowanych użytkowników</h2>
 
         <table border="2">
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
                 <th>Login</th>
-                <th>E-mail</th>
-                <th>Czy aktywne konto</th>
+                <td>Imię</td>
+                <td>Nazwisko</td>
             </tr>
-            <tr th:each="systemUsers: ${users}" th:object="${systemUsers}">
+            <tr th:each="loggedUser: ${loggedUsers}" th:object="${loggedUser}">
                 <td hidden th:text="*{id}"></td>
+                <td><a th:href="@{/admin/users/list/user={id}(id=*{id})}" th:text="*{login}"></a></td>
                 <td th:text="*{firstName}"></td>
                 <td th:text="*{lastName}"></td>
-                <td><a th:href="@{/admin/users/list/user={id}(id=*{id})}" th:text="*{login}"></a></td>
-                <td th:text="*{email}"></td>
-                <td th:if="*{enabled} == true" th:text="'TAK'"></td>
-                <td th:unless="*{enabled} == true" th:text="'NIE'"></td>
             </tr>
         </table>
 
     </div>
 </div>
-
-
-
-
 
 <div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
     <p>Developed by ©2018 Wojciech Gauze Development</p>

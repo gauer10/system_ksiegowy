@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width-device-width" initial-scale="1"/>
+    <meta name="description" content="System księgowy V1">
+    <meta name="author" content="Wojciech Gauze">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker().formatDate("dd-mm-yyyy");
+        } );
+
+
+    </script>
+    <title>System Księgowy</title>
+
+</head>
+<body th:style="'background-color: #a1a4a8'">
+
+<style>
+    .page{width:100%; min-height:85%;position: absolute;top: 60px; bottom: 5%}
+    .menuleftcontent{max-width:17%;float:left;height:85%; bottom: 500px}
+    .maincontent{max-width:78%;float:left;height:85%; bottom: 50px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
+    .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+    .no-spinners{-webkit-appearance: none; margin: 0;}
+</style>
+
+<div th:id="logout" class="logout">
+    <form action="/logout" th:action="@{/logout}" method="post">
+        <input type="submit" value="Wyloguj"/>
+    </form>
+</div>
+
+<div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
+    <div id="menuleftcontent" class="menuleftcontent">
+        <div th:include="fragments/menu :: left-menu"/>
+    </div>
+
+    <div id="maincontent" class="maincontent">
+        <h5>Przegląd</h5>
+
+        <form action="#" method="post" th:action="@{/contracts/list/contract={id}(id=*{id})}" th:object="${contract}">
+
+            <table border="0" style="bottom: 50px">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{contractor}">
+                <input type="hidden" th:field="*{services}">
+                <tr>
+                    <td colspan="2"><h5>Dane umowy:</h5></td>
+                </tr>
+                <tr>
+                    <td>Numer umowy</td>
+                    <td><input th:field="*{contractNumber}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Data podpisania</td>
+                    <td><input class="no-spinners" th:field="*{signDate}" th:required="required" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Data rozpoczęcia</td>
+                    <td><input class="no-spinners" th:field="*{startDate}" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Data zakończenia</td>
+                    <td><input id="datepicker" class="no-spinners" th:field="*{endDate}"></td>
+                </tr>
+                <tr>
+                    <td>Powód zakończenia</td>
+                    <td><input th:field="*{finishReason}"></td>
+                </tr>
+                <tr>
+                    <td>Okres trwania</td>
+                    <td><input th:field="*{length}" type="number"></td>
+                </tr>
+                <tr>
+                    <td>Wynagrodzenie</td>
+                    <td><input th:field="*{salary}" type="number"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><input type="submit" value="Zapisz"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div>
+        <h2>Wystaw fakturę</h2>
+
+        <form action="#" method="post" th:action="@{/invoices/issue}" th:object="${contract}">
+            <input hidden th:field="*{id}">
+            <input hidden th:field="*{contractor}">
+            <input hidden th:field="*{services}">
+
+            <input type="submit" value="Wystaw fakturę">
+
+            <table border="0">
+
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

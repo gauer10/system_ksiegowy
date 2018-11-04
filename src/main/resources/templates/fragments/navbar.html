@@ -1,0 +1,7 @@
+<div class="navbar" th:fragment="navbar">
+    <div th:id="logout" class="logout">
+        <form action="/logout" th:action="@{/logout}" method="post">
+            <input type="submit" value="Wyloguj"/>
+        </form>
+    </div>
+</div>

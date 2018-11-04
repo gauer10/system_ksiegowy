@@ -1,12 +1,11 @@
 package pl.wojtek.system_ksiegowy.model;
 
-import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
-public class Service implements Serializable
+public class Service implements Serializable, Comparable<Service>
 {
     private static final long serialVersionUID = 84849844645645l;
 
@@ -17,7 +16,8 @@ public class Service implements Serializable
     private String serviceName;
     @Column(nullable = false)
     private String serviceDescription;
-
+    @Column(nullable = false)
+    private Date startDate;
 
     public Service() {}
 
@@ -48,5 +48,38 @@ public class Service implements Serializable
 
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @Override
+    public String toString() {
+        return serviceName + ", " + serviceDescription;
+    }
+
+    @Override
+    public int compareTo(Service o) {
+        return id.compareTo(o.getId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj instanceof Service)
+        {
+            Service service = (Service) obj;
+            return id == service.id &&
+                    serviceName.equals(service.serviceName) &&
+                    serviceDescription.equals(service.serviceDescription) &&
+                    startDate == service.startDate;
+        }
+        return false;
     }
 }

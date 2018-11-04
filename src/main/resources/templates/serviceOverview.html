@@ -77,10 +77,12 @@
 <body th:style="'background-color: #a1a4a8'">
 
 <style>
-    .page{width:100%; min-height:900px;position: absolute;top: 30px}
-    .menuleftcontent{min-width:15%;float:left;height:900px;}
-    .maincontent{min-width:78%;float:left;height:900px;}
+    .page{width:100%; min-height:85%;position: absolute;top: 60px; bottom: 5%}
+    .menuleftcontent{max-width:17%;float:left;height:85%; bottom: 500px}
+    .maincontent{max-width:78%;float:left;height:85%; bottom: 50px;}
+    .navbar{min-width: 100%; position: fixed; top: 0px; height: 50px; background-color: #2e5cb8;}
     .logout{min-width: 10%;position: absolute; right: 5px; top: 10px}
+    .no-spinners{-webkit-appearance: none; margin: 0;}
 </style>
 
 <div th:id="logout" class="logout">
@@ -90,76 +92,50 @@
 </div>
 
 <div id="page" class="page">
+
+    <div class="navbar" th:fragment="navbar">
+        <div th:id="logout" class="logout">
+            <form action="/logout" th:action="@{/logout}" method="post">
+                <input type="submit" value="Wyloguj"/>
+            </form>
+        </div>
+    </div>
+
     <div id="menuleftcontent" class="menuleftcontent">
         <div th:include="fragments/menu :: left-menu"/>
     </div>
 
-    <div id="maincontent" class="maincontent" th:object="${user}">
-        <h4>Przegląd</h4>
+    <div id="maincontent" class="maincontent">
+        <h5>Przegląd</h5>
 
-            <form th:action="@{/admin/users/list/user={id}(id=*{id})}" method="post" onsubmit="selectPermissionsOnSubmit()">
-                <table border="0">
-                    <input type="hidden" th:field="*{id}">
-                    <input type="date" th:type="hidden" th:field="*{addDate}" th:value="*{addDate}">
-                    <input type="hidden" th:field="*{password}">
-                    <input type="hidden" th:field="*{accountNonExpired}">
-                    <input type="hidden" th:field="*{credentialsNonExpired}">
-                    <input type="hidden" th:field="*{accountNonLocked}">
-                    <tr>
-                        <td>Imię</td>
-                        <td><input th:value="*{firstName}" th:field="*{firstName}"></td>
-                    </tr>
-                    <tr>
-                        <td>Nazwisko</td>
-                        <td><input th:value="*{lastName}" th:field="*{lastName}"></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input th:value="*{email}" th:field="*{email}"></td>
-                    </tr>
-                    <tr>
-                        <td>Login</td>
-                        <td><input th:value="*{login}" th:field="*{login}"></td>
-                    </tr>
-                    <tr>
-                        <td>Dostęp</td>
-                        <td><input type="checkbox" th:field="*{enabled}" th:value="*{enabled}"></td>
-                    </tr>
-                </table>
-                <input type="submit" th:value="'Zapisz'">
+        <form action="#" method="post" th:action="@{/services/list/service={id}(id=*{id})}" th:object="${service}">
 
-        <h2>Uprawnienia:</h2>
-
-
-        <table border="0">
-            <tr>
-                <td>
-                    <select name="allRoles" size="10" style="width: 200px" multiple="multiple">
-                        <option th:each="roles : ${#lists.sort(userRoles)}" th:text="${roles}"></option>
-                    </select>
-                </td>
-                <td align="center" valign="middle">
-                    <input type="button" value="--&gt;"
-                           onclick="moveOptions(this.form.allRoles, this.form.permissions);" /><br />
-                    <input type="button" value="&lt;--"
-                           onclick="moveOptions(this.form.permissions, this.form.allRoles);" />
-                </td>
-                <td>
-                   <select id="permissions" name="permissions" size="10" style="width: 200px" multiple="multiple">
-                        <option th:each="roles : *{#lists.sort(getRoles())}" th:text="${roles}" th:value="${roles}"></option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+            <table border="0" style="bottom: 50px">
+                <input type="hidden" th:field="*{id}">
+                <tr>
+                    <td colspan="2"><h5>Dane usługi:</h5></td>
+                </tr>
+                <tr>
+                    <td>Nazwa</td>
+                    <td><input th:field="*{serviceName}" th:required="required"></td>
+                </tr>
+                <tr>
+                    <td>Opis</td>
+                    <td><input class="no-spinners" th:field="*{serviceDescription}"></td>
+                </tr>
+                <tr>
+                    <td>Data aktywacji</td>
+                    <td><input th:field="*{startDate}" type="date"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><input type="submit" value="Zapisz"></td>
+                </tr>
+            </table>
         </form>
-
     </div>
 </div>
 
-
-<div class="container" th:style="'background-color: #e5e5e5; position: fixed; bottom: 0px; min-width: 100%'">
-    <p>Developed by ©2018 Wojciech Gauze Development</p>
-</div>
 
 </body>
 </html>
